@@ -24,14 +24,14 @@ namespace ReposeRecords
 
     static void CalculateStrategyAnswers(IEnumerable<Guard> guards)
     {
-      var sleepiestGuard = guards.OrderByDescending(g => g.GetTotalSleepTime())
-                                 .FirstOrDefault();
-      int strategyOneAnswer = sleepiestGuard.Id * sleepiestGuard.GetMostFrequentMinuteAsleep().Key;
+      var strategyOneAnswer = guards.OrderByDescending(g => g.GetTotalSleepTime())
+                                    .Select(guard => guard.Id * guard.GetMostFrequentMinuteAsleep().Key)
+                                    .FirstOrDefault();
 
-      var guardIdAndHighestMinuteFrequency = guards.Select(g => new { MostFrequentMinute = g.GetMostFrequentMinuteAsleep(), g.Id })
-                                                   .OrderByDescending(g => g.MostFrequentMinute.Value)
-                                                   .FirstOrDefault();
-      int strategyTwoAnswer = guardIdAndHighestMinuteFrequency.Id * guardIdAndHighestMinuteFrequency.MostFrequentMinute.Key;
+      var strategyTwoAnswer = guards.Select(g => new { MostFrequentMinute = g.GetMostFrequentMinuteAsleep(), g.Id })
+                                    .OrderByDescending(g => g.MostFrequentMinute.Value)
+                                    .Select(x => x.Id * x.MostFrequentMinute.Key)
+                                    .FirstOrDefault();
       Console.WriteLine($"Strategy one answer: {strategyOneAnswer}");
       Console.WriteLine($"Strategy two answer: {strategyTwoAnswer}");
     }
