@@ -75,7 +75,7 @@ namespace TheStarsAlign
         for (int x = minX; x <= maxX; x++)
         {
           char character = '.';
-          if (points.Where(p => p.IsAt(x, y)).Any())
+          if (points.Any(p => p.IsAt(x, y)))
           {
             character = '#';
           }
