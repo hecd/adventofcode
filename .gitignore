@@ -1,3 +1,5 @@
 **/*/bin/
 **/*/obj/
+**/*/input.*
 **/*/.vscode/
+.vscode/
